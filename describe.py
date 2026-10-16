@@ -1,4 +1,5 @@
 import sys
+import subprocess
 from toolkit import read_dataset
 
 
@@ -16,15 +17,23 @@ def print_statistics(sorted_columns, stat_values):
             if len(text) > length_column:
                 length_column = len(text)
         length_stats_columns.append(length_column)
-    line = " " * length_stats_columns[0]
+        line = " " * length_stats_columns[0]
     for i, name in enumerate(sorted_columns):
         line = line + f"  {name:>{length_stats_columns[i+1]}}"
-    print(line)
+    line = line + "\n"
     for stat in stat_values:
-        line = f"{stat:<{length_stats_columns[0]}}"
+        line = line + f"{stat:<{length_stats_columns[0]}}"
         for j, value in enumerate(stat_values[stat]):
             line = line + f"  {value:>{length_stats_columns[j+1]}.6f}"
-        print(line)
+        line = line + "\n"
+
+    if sys.stdout.isatty():
+        try:
+            subprocess.run(["less", "-S"], input=line, text=True)
+        except FileNotFoundError:
+            print(line, end="")
+    else:
+        print(line, end="")
 
 
 def percentile_calcul(x, total, column):
