@@ -79,5 +79,4 @@ def read_dataset(path):
     except OSError as error:
         print(f"error: cannot read dataset {error}", file=sys.stderr)
         sys.exit(1)
-    print(numeric_columns)
     return numeric_columns, houses, has_houses
