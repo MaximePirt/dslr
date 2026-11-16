@@ -26,16 +26,16 @@ def format_cell(ax, courses, i, j):
 		ax.set_ylabel(courses[i][:12], fontsize=8, rotation=0, ha="right")
 
 
-	def draw_cell(ax, courses, i, j, houses_data):
-		'''Draw a histogram if i == j, else draw a scatter plot'''
-		for house, rows in houses_data.items():
-			color = HOUSES[house]
-			if i == j:
-				values = [v for v in rows[courses[j]] if v == v]
-				ax.hist(values, bins=15, color=color, alpha=0.6)
-			else:
-				x, y = get_pairs(rows[courses[j]], rows[courses[i]])
-				ax.scatter(x, y, s=2, color=color, alpha=0.5)
+def draw_cell(ax, courses, i, j, houses_data):
+	'''Draw a histogram if i == j, else draw a scatter plot'''
+	for house, rows in houses_data.items():
+		color = HOUSES[house]
+		if i == j:
+			values = [v for v in rows[courses[j]] if v == v]
+			ax.hist(values, bins=15, color=color, alpha=0.6)
+		else:
+			x, y = get_pairs(rows[courses[j]], rows[courses[i]])
+			ax.scatter(x, y, s=2, color=color, alpha=0.5)
 
 
 
