@@ -3,6 +3,23 @@ import math
 import sys
 
 
+def mean_calcul(values, total):
+    sum_values = 0
+    for value in values:
+        sum_values = sum_values + value
+    mean = sum_values/total
+    return mean
+
+
+def std_calcul(values, total, mean):
+    total_square = 0
+    for value in values:
+        total_square = total_square + (value - mean) * (value - mean)
+    variance = total_square / (total - 1)
+    std_value = variance ** 0.5
+    return std_value
+
+
 def is_numeric(argument):
     if not argument.strip():
         return None, True

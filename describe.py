@@ -1,6 +1,8 @@
 import sys
 import subprocess
 from toolkit import read_dataset
+from toolkit import mean_calcul
+from toolkit import std_calcul
 
 
 def print_statistics(sorted_columns, stat_values):
@@ -64,19 +66,12 @@ def statistics(sorted_columns):
         stat_values["Count"].append(total)
         stat_values["Min"].append(sorted_columns[column][0])
         stat_values["Max"].append(sorted_columns[column][total-1])
-        sum_values = 0
-        for value in sorted_columns[column]:
-            sum_values = sum_values + value
-        mean = sum_values/total
+        mean = mean_calcul(sorted_columns[column], total)
         stat_values["Mean"].append(mean)
-        total_square = 0
         if total <= 1:
             std_value = float("nan")
         else:
-            for value in sorted_columns[column]:
-                total_square = total_square + (value - mean) * (value - mean)
-            variance = total_square / (total - 1)
-            std_value = variance ** 0.5
+            std_value = std_calcul(sorted_columns[column], total, mean)
         stat_values["Std"].append(std_value)
         percentile_25 = percentile_calcul(0.25, total, sorted_columns[column])
         stat_values["25%"].append(percentile_25)
